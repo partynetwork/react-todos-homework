@@ -1,0 +1,9 @@
+{
+  "version" : "Development",
+  "coreURL" : "http://localhost:3030",
+  "socketIo": {
+    "host" : "http://localhost:3030",
+    "path" : "/api/io"
+  },
+  "baseURI" : "/"
+}
