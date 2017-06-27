@@ -10,7 +10,7 @@ import messages from './messages';
 import styled from 'styled-components';
 
 // Import actions
-import {addTodo, updateTodo, completeTodo, setVisibilityFilterTask} from './actions';
+import {addTodo, updateTodo, removeTodo, completeTodo, setVisibilityFilterTask} from './actions';
 import * as globalAction from 'actions/global';
 // Import constant
 import {COMPLETE_TASK} from 'constants/todo';
@@ -108,6 +108,10 @@ class TodoPage extends Component {
             dialogComponent
         })
     }
+    handleClickTodoItemRemove(task) {
+        const {removeTodo} = this.props;
+        removeTodo(task);
+    }
 
     handleClickFilter(filter) {
         this.props.setVisibilityFilterTask(filter)
@@ -143,6 +147,7 @@ class TodoPage extends Component {
                 isChecked={task.get('isCompleted')}
                 onClickCheckbox={this.handleClickTodoItemCheckbox.bind(this, task)}
                 onClickEdit={this.handleClickTodoItemEdit.bind(this, task)}
+                onClickRemove={this.handleClickTodoItemRemove.bind(this, task)}
                 onClickContent={this.handleClickTodoItemContent.bind(this, task)}
             />
         });
@@ -218,6 +223,7 @@ function mapDispatchToProps(dispatch) {
     return {
         addTodo: bindActionCreators(addTodo, dispatch),
         updateTodo: bindActionCreators(updateTodo, dispatch),
+        removeTodo: bindActionCreators(removeTodo, dispatch),
         completeTodo: bindActionCreators(completeTodo, dispatch),
         setVisibilityFilterTask: bindActionCreators(setVisibilityFilterTask, dispatch),
         globalAction: bindActionCreators(globalAction, dispatch)

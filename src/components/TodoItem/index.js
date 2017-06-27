@@ -29,7 +29,7 @@ const StyledTodoItem = styled.li`
 
     .tools {
       position: absolute;
-      right: 15px;
+      right: 10px;
       i {
         color: #a3a4c5;
       }
@@ -62,6 +62,9 @@ function TodoItem(props) {
                 <IconButton onClick={props.onClickEdit}>
                     <i className="material-icons">edit</i>
                 </IconButton>
+                <IconButton onClick={props.onClickRemove}>
+                    <i className="material-icons">close</i>
+                </IconButton>
             </div>
         </StyledTodoItem>
     );
@@ -72,6 +75,7 @@ TodoItem.propTypes = {
     onClickContent: PropTypes.func,
     onClickCheckbox: PropTypes.func,
     onClickEdit: PropTypes.func,
+    onClickRemove: PropTypes.func,
     isChecked: PropTypes.bool,
 };
 

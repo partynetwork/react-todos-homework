@@ -6,6 +6,7 @@
 import {
     ADD_TASK,
     UPDATE_TASK,
+    REMOVE_TASK,
     COMPLETE_TASK,
     SET_VISIBILITY_FILTER_TASK,
 } from 'constants/todo';
@@ -26,6 +27,12 @@ export function addTodo(task) {
 export function updateTodo(task) {
     return {
         type: UPDATE_TASK,
+        task
+    };
+}
+export function removeTodo(task) {
+    return {
+        type: REMOVE_TASK,
         task
     };
 }

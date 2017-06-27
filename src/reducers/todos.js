@@ -36,13 +36,15 @@ function todoReducer(state = initialState, action) {
         case UPDATE_TASK :
             const taskIndex = _.findIndex(state.get('tasks').toJS(), {id: action.task.get('id')});
 
-            return state.updateIn(['tasks', taskIndex], tasks => {
-                return tasks.merge({
+            return state.updateIn(['tasks', taskIndex], task => {
+                return task.merge({
                     title : action.task.get('title'),
                     description: action.task.get('description'),
                     date : action.task.get('date')
                 });
             });
+        case REMOVE_TASK :
+            return state.set('tasks', state.get('tasks').filter(task=> task.get('id') !== action.task.get('id') ));
         case COMPLETE_TASK :
             return state.updateIn(['tasks', action.taskIndex], task => {
                 return task.set('isCompleted', !task.get('isCompleted'));

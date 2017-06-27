@@ -34,8 +34,13 @@ class View extends Component {
                             {task.description}
                         </p>
 
-                        <h4>Date :</h4>
-                        <span>{moment(task.date).format('lll')}</span>
+                        {task.date ? (
+                            <div>
+                                <h4>Date :</h4>
+                                <span>{moment().format('lll')}</span>
+                            </div>
+                        ):''}
+
                     </div>
                     <br/>
                     <div>
@@ -53,12 +58,9 @@ View.defaultProps = {};
 
 
 function makeMapStateToProps(state, props) {
-    const taskId = props.params.id;
     const getTaskById = makeGetTaskById();
-    return function mapStateToProps(state) {
-        return {
-            task: getTaskById(state, props)
-        }
+    return {
+        task: getTaskById(state, props)
     }
 }
 
