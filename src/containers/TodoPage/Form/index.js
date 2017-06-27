@@ -16,7 +16,8 @@ import HelpBlock from 'components/Input/HelpBlock';
 const FormWrapper = styled.form`
     background-color: white;
     padding: 20px;
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
 `;
 const renderField = ({input, label, placeholder, type, meta: {touched, error}}) => {
     return (

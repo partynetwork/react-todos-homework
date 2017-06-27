@@ -27,6 +27,23 @@ export default function createRoutes(store) {
             },
         },
         {
+            path: '/view/:id',
+            name: 'todoView',
+            getComponent(nextState, cb) {
+                const importModules = Promise.all([
+                    System.import('./containers/TodoPage/View'),
+                ]);
+
+                const renderRoute = loadModule(cb);
+
+                importModules.then(([component]) => {
+                    renderRoute(component);
+                });
+
+                importModules.catch(errorLoading);
+            },
+        },
+        {
             path: '*',
             name: 'notfound',
             getComponent(nextState, cb) {

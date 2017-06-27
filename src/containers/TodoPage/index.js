@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
-import {fromJS} from 'immutable';
 import {createStructuredSelector} from 'reselect';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
 import _ from 'lodash';
 import is from 'is_js';
-import moment from 'moment';
 import {FormattedMessage} from 'react-intl';
 import messages from './messages';
 import styled from 'styled-components';
@@ -23,6 +22,7 @@ import TodoItem from 'components/TodoItem';
 import Button from 'components/Button';
 import Form from './Form';
 import Dialog from 'components/Dialog';
+import Loading from "../../components/Dialog/DialogMessage/Loading/index";
 // language=SCSS prefix=&{ suffix=}
 const Main = styled.main`
     max-width: 600px !important;
@@ -48,8 +48,10 @@ const FilterTools = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d3a4ff;
+    background-color: ${props=>props.theme.themeColor4};
     border-bottom: 1px solid #E0E0E0;
+    color:whitesmoke;
+    button { color: whitesmoke; }
 `;
 // language=SCSS prefix=&{ suffix=}
 const TodoWrapper = styled.ul`
@@ -68,6 +70,7 @@ class TodoPage extends Component {
         this.state = {
             filter: 'all',
             showDialog: false,
+            dialogComponent:<Loading/>,
             taskSelected: null
         };
     }
@@ -79,19 +82,30 @@ class TodoPage extends Component {
     }
 
 
-    handleClickTodoItemContent() {
-
+    handleClickTodoItemContent(task) {
+        browserHistory.push(`/view/${task.get('id')}`)
     }
 
     handleClickAddTodoItem() {
+        const dialogComponent = <Form
+            initialValues={null}
+            onSubmit={this.handleSubmitTodo.bind(this)}
+            handleClickCloseDialog={this.handleClickCloseDialog.bind(this)}
+        />;
         this.setState({
-            showDialog:true
+            showDialog:true,
+            dialogComponent
         })
     }
     handleClickTodoItemEdit(task) {
+        const dialogComponent = <Form
+            initialValues={task}
+            onSubmit={this.handleSubmitTodo.bind(this)}
+            handleClickCloseDialog={this.handleClickCloseDialog.bind(this)}
+        />;
         this.setState({
             showDialog:true,
-            taskSelected: task
+            dialogComponent
         })
     }
 
@@ -139,11 +153,7 @@ class TodoPage extends Component {
         return (
             <Main className="container">
                 <Dialog isOpen={this.state.showDialog}>
-                    <Form
-                        initialValues={this.state.taskSelected}
-                        onSubmit={this.handleSubmitTodo.bind(this)}
-                        handleClickCloseDialog={this.handleClickCloseDialog.bind(this)}
-                    />
+                    {this.state.dialogComponent}
                 </Dialog>
                 <section className="row">
                     <Header className="col-xs-12 col-md-12">
@@ -165,6 +175,13 @@ class TodoPage extends Component {
                                 size={'sm'}
                                 onClick={this.handleClickFilter.bind(this, 'SHOW_ALL')}>
                                 All
+                            </Button>
+                            <Button
+                                outline={todos.get('visibilityFilterTask') !== 'SHOW_ACTIVE'}
+                                display={'primary'}
+                                size={'sm'}
+                                onClick={this.handleClickFilter.bind(this, 'SHOW_ACTIVE')}>
+                                Active
                             </Button>
                             <Button
                                 outline={todos.get('visibilityFilterTask') !== 'SHOW_COMPLETED'}

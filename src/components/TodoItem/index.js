@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 import styled from 'styled-components';
 
 import IconButton from 'components/Button/IconButton';
@@ -37,7 +38,7 @@ const StyledTodoItem = styled.li`
       vertical-align: middle;
     }
     .icon-check {
-      color: #26c95c;
+      color: ${props=>props.theme.themeColor4};
     }
 
     span {
@@ -53,7 +54,8 @@ function TodoItem(props) {
                 {props.isChecked ? (<i className="material-icons icon-check">check</i>):(<i className="material-icons">crop_square</i>)}
             </div>
             <div className="content" onClick={props.onClickContent}>
-                <h4>{props.task.get('title')}</h4>
+                <h4>
+                    {_.truncate(props.task.get('title'), {'length': 24})}</h4>
                 {props.task.get('date')!==null ? (<span>{moment(props.task.get('date')).fromNow(true)}</span>):('')}
             </div>
             <div className="tools">

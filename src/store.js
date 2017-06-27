@@ -5,9 +5,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
-
-import persistState , {mergePersistedState} from 'redux-localstorage';
-import { serialize, deserialize } from 'redux-localstorage-immutable';
+import { autoRehydrate } from 'redux-persist-immutable';
 import createReducer from './reducers';
 
 
@@ -21,6 +19,7 @@ export default function configureStore(initialState = {}, history) {
 
     const enhancers = [
         applyMiddleware(...middlewares),
+        autoRehydrate()
     ];
 
     const store = createStore(

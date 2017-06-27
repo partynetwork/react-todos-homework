@@ -6,10 +6,10 @@ import {useScroll} from 'react-router-scroll';
 import {Provider} from 'react-redux'
 import {syncHistoryWithStore} from 'react-router-redux';
 import {AppContainer} from 'react-hot-loader';
+import {persistStore} from 'redux-persist-immutable';
 import configure from './store'
 const initialState = {};
 const store = configure(initialState, browserHistory);
-
 
 import createRoutes from './routes';
 
@@ -25,7 +25,6 @@ import 'bootstrap-grid';
 const history = syncHistoryWithStore(browserHistory, store, {
     selectLocationState: selectLocationState(),
 });
-
 const rootRoute = {
     component: App,
     childRoutes: createRoutes(store),
@@ -34,7 +33,7 @@ const rootRoute = {
 const render = (translatedMessages) => {
     ReactDOM.render(
         <AppContainer>
-            <Provider store={store}>
+            <Provider store={store} persistor={persistStore(store,{whitelist : ['todos']})}>
                 <LanguageProvider messages={translatedMessages}>
                     <DefaultTheme>
                         <Router

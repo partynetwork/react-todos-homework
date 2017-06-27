@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 const FormGroup = styled.div`
   & {
     margin: 0.8em 0;
+    
+    position: relative;
+    padding-bottom: 25px;
     span{
       color: ${props=> { if(props.display) { return props.theme[props.display+'Color'];} else { return 'inherit'} }  } !important;
     }
