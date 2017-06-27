@@ -1,9 +1,5 @@
 {
-  "version" : "v1.0.0",
-  "coreURL" : "https://bcr777.club",
-  "socketIo": {
-    "host" : "",
-    "path" : "/api/io"
-  },
+  "version" : "0.0.1",
+  "coreURL" : "https://localhost",
   "baseURI" : "/"
 }
